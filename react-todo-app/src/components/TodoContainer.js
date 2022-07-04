@@ -18,16 +18,58 @@ class TodoContainer extends React.Component {
           {
             id: 3,
             title: "Deploy to live server",
-            completed: false
+            completed: true
           }
         ]
        };
+
+      //  handleChange = (id) => {
+      //   this.setState({
+
+      //     todos: this.state.todos.map(todo => {
+      //       if (todo.id === id) {
+      //         todo.completed = !todo.completed;
+      //       }
+      //       return todo;
+      //     })
+
+      //   });
+      //  }
+
+      handleChange = (id) => {
+        this.setState(prevState => ({
+          
+          todos: prevState.todos.map(todo => {
+            if (todo.id === id) {
+              return {
+                ...todo,
+                completed: !todo.completed,
+              }
+            }
+            return todo;
+          })
+
+        }));
+       }
+
+       delTodo = id => {
+        this.setState({
+          todos: [
+            ...this.state.todos.filter(todo => {
+              return todo.id !== id;
+            })
+          ]
+        })
+       }
 
   render() {
     return (
         <div>
           <Header/>
-            <TodosList todos={this.state.todos} />
+            <TodosList todos={this.state.todos}
+             handleChangeProps={this.handleChange}
+             deleteTodoProps={this.delTodo}
+             />
         </div>
     )
   }
